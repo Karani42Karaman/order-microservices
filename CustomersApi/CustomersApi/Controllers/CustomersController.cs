@@ -22,6 +22,7 @@ namespace CustomersApi.Controllers
         [HttpPost("Create")]
         public Guid Create([FromBody] CustomerModel model)
         {
+
             _customerService.CreateCustomerAsync(model);
             return model.Id;
         }
