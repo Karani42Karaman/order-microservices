@@ -14,16 +14,15 @@ namespace CustomersApi.Data.Repositories
             this.Context = context;
         }
 
-        public async Task CreateAsync(TEntity model)
+        public void CreateAsync(TEntity model)
         {
             try
             {
-
-                await Context.Set<TEntity>().AddAsync(model);
+                Context.Set<TEntity>().AddAsync(model);
             }
             catch (Exception ex)
             {
-
+                Console.WriteLine(ex.Message);
                 throw;
             }
         }
@@ -38,16 +37,57 @@ namespace CustomersApi.Data.Repositories
             return Context.Set<TEntity>().FindAsync(id);
         }
 
-        public void Remove(Guid id)
+        public bool Remove(Guid id)
         {
-            var model = GetAsync(id).Result;
-            Context.Set<TEntity>().Remove(model);
+            try
+            {
+                var model = GetAsync(id).Result;
+                if (model != null)
+                {
+                    var state = Context.Set<TEntity>().Remove(model).State;
+                    if (state == EntityState.Deleted)
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return false;
+                throw;
+            }
+
         }
 
-        public Task UpdateAsync(TEntity model)
+        public bool UpdateAsync(TEntity model)
         {
-            Context.Update(model);
-            return Task.CompletedTask;
+            try
+            {
+                var state = Context.Set<TEntity>().Update(model).State;
+                if (state == EntityState.Modified)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return false;
+                throw;
+            }
         }
     }
 }

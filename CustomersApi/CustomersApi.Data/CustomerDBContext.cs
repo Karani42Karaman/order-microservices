@@ -16,10 +16,15 @@ namespace CustomersApi.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-           modelBuilder.Entity<AddressModel>()
-                .HasOne(s => s.Customer) 
-                .WithOne(ad => ad.Address)
-                .HasForeignKey<CustomerModel>(x=>x.AddressId);
+            modelBuilder.Entity<AddressModel>().HasKey(x => x.Id);
+            modelBuilder.Entity<CustomerModel>().HasKey(x => x.Id);
+
+            modelBuilder.Entity<CustomerModel>()
+                 .HasOne(s => s.Address)
+                 .WithOne(ad => ad.Customer)
+                 .HasForeignKey<AddressModel>()
+                 .IsRequired(true)
+                 .OnDelete(DeleteBehavior.Cascade);
 
             base.OnModelCreating(modelBuilder);
         }

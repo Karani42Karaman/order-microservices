@@ -20,7 +20,6 @@ namespace CustomersApi.Data.Migrations
             modelBuilder.Entity("CustomersApi.Core.Model.AddressModel", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("char(36)");
 
                     b.Property<string>("AddressLine")
@@ -46,9 +45,6 @@ namespace CustomersApi.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("char(36)");
 
-                    b.Property<Guid>("AddressId")
-                        .HasColumnType("char(36)");
-
                     b.Property<DateTime>("CreateAt")
                         .HasColumnType("datetime(6)");
 
@@ -63,26 +59,23 @@ namespace CustomersApi.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AddressId")
-                        .IsUnique();
-
                     b.ToTable("CustomerModel");
-                });
-
-            modelBuilder.Entity("CustomersApi.Core.Model.CustomerModel", b =>
-                {
-                    b.HasOne("CustomersApi.Core.Model.AddressModel", "Address")
-                        .WithOne("Customer")
-                        .HasForeignKey("CustomersApi.Core.Model.CustomerModel", "AddressId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Address");
                 });
 
             modelBuilder.Entity("CustomersApi.Core.Model.AddressModel", b =>
                 {
+                    b.HasOne("CustomersApi.Core.Model.CustomerModel", "Customer")
+                        .WithOne("Address")
+                        .HasForeignKey("CustomersApi.Core.Model.AddressModel", "Id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("Customer");
+                });
+
+            modelBuilder.Entity("CustomersApi.Core.Model.CustomerModel", b =>
+                {
+                    b.Navigation("Address");
                 });
 #pragma warning restore 612, 618
         }

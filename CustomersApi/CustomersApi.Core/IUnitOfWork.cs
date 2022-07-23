@@ -7,6 +7,6 @@ namespace CustomersApi.Core
     public interface IUnitOfWork:IDisposable
     {
         ICustomerRepository ICustomerRepository { get;}
-        Task<int> CommitAsync();
+        int CommitAsync();
     }
 }

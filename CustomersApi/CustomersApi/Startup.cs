@@ -39,7 +39,10 @@ namespace CustomersApi
             string mySqlConnectionStr = Configuration.GetConnectionString("DefaultConnection");
             services.AddDbContextPool<CustomerDBContext>(options => options.UseMySql(mySqlConnectionStr, ServerVersion.AutoDetect(mySqlConnectionStr)));
 
-
+            services.AddControllersWithViews()
+    .AddNewtonsoftJson(options =>
+    options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+    );
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "CustomersApi", Version = "v1" });

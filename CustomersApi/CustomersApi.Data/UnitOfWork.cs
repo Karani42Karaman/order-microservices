@@ -1,7 +1,6 @@
 ﻿using CustomersApi.Core;
 using CustomersApi.Core.Repositories;
 using CustomersApi.Data.Repositories;
-using System.Threading.Tasks;
 
 namespace CustomersApi.Data
 {
@@ -10,7 +9,7 @@ namespace CustomersApi.Data
 
         private readonly CustomerDBContext _context;
 
-        private   CostumerRepository _costumerRepository;
+        private CostumerRepository _costumerRepository;
         public ICustomerRepository ICustomerRepository => _costumerRepository ?? new CostumerRepository(_context);
 
         public UnitOfWork(CustomerDBContext context)
@@ -18,16 +17,14 @@ namespace CustomersApi.Data
             this._context = context;
         }
 
-
-        public async Task<int> CommitAsync()
+        public int CommitAsync()
         {
-        var a =     await _context.SaveChangesAsync();
-            return a;
+            return _context.SaveChanges();
         }
 
         public void Dispose()
         {
             _context.Dispose();
-        }
+        }  
     }
 }
