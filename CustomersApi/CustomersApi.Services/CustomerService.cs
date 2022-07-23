@@ -70,16 +70,27 @@ namespace CustomersApi.Services
 
         public bool UpdateCustomerAsync(CustomerModel model)
         {
-            var status = _unitOfWork.ICustomerRepository.UpdateAsync(model);
-            var saveStatus = _unitOfWork.CommitAsync();
-            if (status && saveStatus > 0)
+            try
             {
-                return true;
+                
+                var status = _unitOfWork.ICustomerRepository.UpdateAsync(model);
+                var saveStatus = _unitOfWork.CommitAsync();
+                if (status && saveStatus > 0)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
             }
-            else
+            catch (Exception ex)
             {
+                Console.WriteLine(ex.Message);
                 return false;
+                throw;
             }
+            
         }
 
         /// <summary>

@@ -19,30 +19,33 @@ namespace CustomersApi.Controllers
             this._customerService = customerService;
         }
 
-
-        [HttpPost]
+        [HttpPost("Create")]
         public Guid Create([FromBody] CustomerModel model)
         {
             _customerService.CreateCustomerAsync(model);
             return model.Id;
         }
 
-        // PUT api/<CustomersController>/5
-        [HttpPut("{id}")]
+        [HttpPut("Update")]
         public bool Update([FromBody] CustomerModel model)
-        {
-            _customerService.UpdateCustomerAsync(model);
-            return false;
+        {            
+            return _customerService.UpdateCustomerAsync(model);
         }
 
-        // DELETE api/<CustomersController>/5
-        [HttpDelete("{id}")]
+        [HttpDelete("Delete{id}")]
         public bool Delete(Guid id)
         {
             return _customerService.RemoveCustomer(id);
         }
 
-        [HttpGet]
+        [HttpGet("Get{id}")]
+        public ActionResult<CustomerModel> Get(Guid id)
+        {
+            var model = _customerService.GetWithCutomerAndAdress(id);
+            return model != null ? model: null;
+        }
+        
+        [HttpGet("Get")]
         public IEnumerable<CustomerModel> Get()
         {
             try
@@ -56,10 +59,10 @@ namespace CustomersApi.Controllers
             }
         }
 
-        [HttpGet("{id}")]
-        public CustomerModel Get(Guid id)
+        [HttpGet("Validation")]
+        public bool Validation(Guid id)
         {
-            return _customerService.GetWithCutomerAndAdress(id);
+            return _customerService.Validate(id);
         }
     }
 }
