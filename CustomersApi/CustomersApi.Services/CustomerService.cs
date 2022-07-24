@@ -55,7 +55,6 @@ namespace CustomersApi.Services
 
         public bool RemoveCustomer(Guid id)
         {
-            CustomerModel model =_unitOfWork.ICustomerRepository.GetWithCutomerAndAdress(id);
             var status = _unitOfWork.ICustomerRepository.Remove(id);
             var saveStatus = _unitOfWork.CommitAsync();
             if (status && saveStatus > 0)
@@ -72,7 +71,6 @@ namespace CustomersApi.Services
         {
             try
             {
-                
                 var status = _unitOfWork.ICustomerRepository.UpdateAsync(model);
                 var saveStatus = _unitOfWork.CommitAsync();
                 if (status && saveStatus > 0)

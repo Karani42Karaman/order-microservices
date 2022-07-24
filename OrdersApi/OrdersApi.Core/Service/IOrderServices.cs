@@ -14,7 +14,8 @@ namespace OrdersApi.Core.Service
         Task<IEnumerable<OrderModel>> GetAllOrderAsync();
         ValueTask<OrderModel> GetOrderAsync(Guid id);
         IQueryable<OrderModel> GetAllWithOrderAndAdressAndProduct();
-        OrderModel GetWithOrderAndAdress(Guid id);
+        OrderModel GetWithOrderAndAdressAndProduct(Guid id);
+        Task<IEnumerable<OrderModel>> GetAllWithOrderAndAdressAndProduct(Guid id);
         bool ChangeStatus(Guid id,string status);
     }
 }

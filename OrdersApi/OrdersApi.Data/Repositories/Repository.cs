@@ -31,7 +31,6 @@ namespace OrdersApi.Data.Repositories
         {
             return await Context.Set<TEntity>().ToListAsync();
         }
-
         public ValueTask<TEntity> GetAsync(Guid id)
         {
             return Context.Set<TEntity>().FindAsync(id);
