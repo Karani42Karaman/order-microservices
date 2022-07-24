@@ -20,46 +20,61 @@ namespace CustomersApi.Data.Migrations
             modelBuilder.Entity("CustomersApi.Core.Model.AddressModel", b =>
                 {
                     b.Property<Guid>("Id")
-                        .HasColumnType("char(36)");
+                        .HasColumnType("char(36)")
+                        .HasColumnName("Id");
 
                     b.Property<string>("AddressLine")
-                        .HasColumnType("longtext");
+                        .IsRequired()
+                        .HasColumnType("longtext")
+                        .HasColumnName("AddressLine");
 
                     b.Property<string>("City")
-                        .HasColumnType("longtext");
+                        .IsRequired()
+                        .HasColumnType("longtext")
+                        .HasColumnName("City");
 
                     b.Property<int>("CityCode")
-                        .HasColumnType("int");
+                        .HasColumnType("int")
+                        .HasColumnName("CityCode");
 
                     b.Property<string>("Country")
-                        .HasColumnType("longtext");
+                        .IsRequired()
+                        .HasColumnType("longtext")
+                        .HasColumnName("Country");
 
                     b.HasKey("Id");
 
-                    b.ToTable("AddressModel");
+                    b.ToTable("Address");
                 });
 
             modelBuilder.Entity("CustomersApi.Core.Model.CustomerModel", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("char(36)");
+                        .HasColumnType("char(36)")
+                        .HasColumnName("Id");
 
                     b.Property<DateTime>("CreateAt")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("datetime(6)")
+                        .HasColumnName("CreateAt");
 
                     b.Property<string>("Email")
-                        .HasColumnType("longtext");
+                        .IsRequired()
+                        .HasColumnType("longtext")
+                        .HasColumnName("Email");
 
                     b.Property<string>("Name")
-                        .HasColumnType("longtext");
+                        .IsRequired()
+                        .HasColumnType("longtext")
+                        .HasColumnName("Name");
 
-                    b.Property<DateTime>("UpdateAt")
-                        .HasColumnType("datetime(6)");
+                    b.Property<DateTime?>("UpdateAt")
+                        .HasColumnType("datetime(6)")
+                        .HasColumnName("UpdateAt");
 
                     b.HasKey("Id");
 
-                    b.ToTable("CustomerModel");
+                    b.ToTable("Customer");
                 });
 
             modelBuilder.Entity("CustomersApi.Core.Model.AddressModel", b =>

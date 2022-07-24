@@ -18,6 +18,9 @@ namespace CustomersApi.Data
         {
             modelBuilder.Entity<AddressModel>().HasKey(x => x.Id);
             modelBuilder.Entity<CustomerModel>().HasKey(x => x.Id);
+            modelBuilder.Entity<CustomerModel>().Property(x=>x.UpdateAt).IsRequired(false);
+
+
 
             modelBuilder.Entity<CustomerModel>()
                  .HasOne(s => s.Address)

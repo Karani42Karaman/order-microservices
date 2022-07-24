@@ -1,6 +1,6 @@
 ﻿using CustomersApi.Core.Model;
-using CustomersApi.Core.Repositories;
 using CustomersApi.Core.Service;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -20,16 +20,29 @@ namespace CustomersApi.Controllers
         }
 
         [HttpPost("Create")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public Guid Create([FromBody] CustomerModel model)
         {
-
+            if (!ModelState.IsValid)
+            {
+                return Guid.Empty;
+            }
+            model.CreateAt = DateTime.Now;
             _customerService.CreateCustomerAsync(model);
             return model.Id;
         }
 
         [HttpPut("Update")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public bool Update([FromBody] CustomerModel model)
-        {            
+        {
+            if (!ModelState.IsValid)
+            {
+                return false;
+            }
+            model.UpdateAt = DateTime.Now;
             return _customerService.UpdateCustomerAsync(model);
         }
 
@@ -40,13 +53,17 @@ namespace CustomersApi.Controllers
         }
 
         [HttpGet("Get{id}")]
-        public ActionResult<CustomerModel> Get(Guid id)
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public CustomerModel Get(Guid id)
         {
             var model = _customerService.GetWithCutomerAndAdress(id);
             return model != null ? model: null;
         }
         
         [HttpGet("Get")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public IEnumerable<CustomerModel> Get()
         {
             try
@@ -61,6 +78,8 @@ namespace CustomersApi.Controllers
         }
 
         [HttpGet("Validation")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public bool Validation(Guid id)
         {
             return _customerService.Validate(id);
