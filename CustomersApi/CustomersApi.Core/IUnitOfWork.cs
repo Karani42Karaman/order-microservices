@@ -1,6 +1,5 @@
 ﻿using CustomersApi.Core.Repositories;
 using System;
-using System.Threading.Tasks;
 
 namespace CustomersApi.Core
 {
