@@ -23,6 +23,7 @@ namespace OrdersApi.Services
             {
                 var model = _unitOfWork.IOrderRepository.GetWithOrderAndAdressAndProduct(id);
                 model.Status = status;
+                model.UpdateAt = DateTime.Now;
                 var stat = _unitOfWork.IOrderRepository.UpdateAsync(model);
                 var saveStatus = _unitOfWork.CommitAsync();
                 if (stat && saveStatus > 0)
@@ -40,9 +41,6 @@ namespace OrdersApi.Services
                 return false;
                 throw;
             }
-
-
-            return false;
         }
 
         public void CreateOrder(OrderModel model)

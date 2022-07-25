@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using OrdersApi.Core.Model;
 using OrdersApi.Core.Service;
+using OrdersApi.Proxy;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,9 +29,17 @@ namespace OrdersApi.Controllers
             {
                 return Guid.Empty;
             }
-            model.CreateAt = DateTime.Now;
-            _orderService.CreateOrder(model);
-            return model.Id;
+            bool response = RefitProxy.Instance.CustomerValidation(model.CustomerId);
+            if (response)
+            {
+                model.CreateAt = DateTime.Now;
+                _orderService.CreateOrder(model);
+                return model.Id;
+            }
+            else
+            {
+                return Guid.Empty;
+            }
         }
 
         [HttpPut("Update")]
@@ -80,9 +89,9 @@ namespace OrdersApi.Controllers
         [HttpPost("ChangeStatus")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public bool ChangeStatus(Guid id,string status)
+        public bool ChangeStatus(Guid id, string status)
         {
-            return _orderService.ChangeStatus(id,status);
+            return _orderService.ChangeStatus(id, status);
         }
     }
 }

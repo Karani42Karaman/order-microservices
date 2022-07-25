@@ -1,22 +1,17 @@
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using OrdersApi.Core;
 using OrdersApi.Core.Service;
 using OrdersApi.Data;
 using OrdersApi.Services;
 using OrdersApi.Validation;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+
 
 namespace OrdersApi
 {
@@ -49,8 +44,6 @@ namespace OrdersApi
             {
                 fv.RegisterValidatorsFromAssemblyContaining<OrderValidator>();
             });
-
-
 
             services.AddSwaggerGen(c =>
             {

@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace CustomersApi.Controllers
 {
@@ -77,12 +78,12 @@ namespace CustomersApi.Controllers
             }
         }
 
-        [HttpGet("Validation")]
+        [HttpGet("Validation{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public bool Validation(Guid id)
+        public Task<bool> Validation(Guid id)
         {
-            return _customerService.Validate(id);
+            return Task.FromResult<bool>(_customerService.Validate(id));
         }
     }
 }

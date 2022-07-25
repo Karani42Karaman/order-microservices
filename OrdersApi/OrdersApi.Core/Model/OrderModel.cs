@@ -10,6 +10,7 @@ namespace OrdersApi.Core.Model
     public class OrderModel
     {
         [Column("Id")]
+        [JsonIgnore]
         public Guid Id { get; set; }
 
         [Column("CustomerId")]
