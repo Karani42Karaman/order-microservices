@@ -1,11 +1,18 @@
+using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using OrdersApi.Core;
+using OrdersApi.Core.Service;
+using OrdersApi.Data;
+using OrdersApi.Services;
+using OrdersApi.Validation;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -27,6 +34,24 @@ namespace OrdersApi
         {
 
             services.AddControllers();
+
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
+            services.AddScoped<IOrderServices, OrderService>();
+
+            string mySqlConnectionStr = Configuration.GetConnectionString("DefaultConnection");
+            services.AddDbContextPool<OrderDBContext>(options => options.UseMySql(mySqlConnectionStr, ServerVersion.AutoDetect(mySqlConnectionStr)));
+
+            services.AddControllersWithViews()
+                    .AddNewtonsoftJson(options =>
+                     options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+                     );
+            services.AddControllers().AddFluentValidation(fv =>
+            {
+                fv.RegisterValidatorsFromAssemblyContaining<OrderValidator>();
+            });
+
+
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "OrdersApi", Version = "v1" });

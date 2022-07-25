@@ -25,7 +25,7 @@ namespace OrdersApi.Data
             modelBuilder.Entity<OrderModel>()
                  .HasOne(s => s.Address)
                  .WithOne(ad => ad.Order)
-                 .HasForeignKey<AddressModel>()
+                 .HasForeignKey<AddressModel>(x=>x.Id)
                  .IsRequired(true)
                  .OnDelete(DeleteBehavior.Cascade);
 

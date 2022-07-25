@@ -18,7 +18,31 @@ namespace OrdersApi.Services
 
         public bool ChangeStatus(Guid id, string status)
         {
-            throw new NotImplementedException();
+
+            try
+            {
+                var model = _unitOfWork.IOrderRepository.GetWithOrderAndAdressAndProduct(id);
+                model.Status = status;
+                var stat = _unitOfWork.IOrderRepository.UpdateAsync(model);
+                var saveStatus = _unitOfWork.CommitAsync();
+                if (stat && saveStatus > 0)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return false;
+                throw;
+            }
+
+
+            return false;
         }
 
         public void CreateOrder(OrderModel model)
